@@ -5,7 +5,7 @@ import akka.http.server.Directives
 import akka.http.marshalling.Marshal
 import akka.http.model.Multipart.FormData
 import akka.http.model.HttpEntity.Strict
-import akka.stream.FlowMaterializer
+import akka.stream.ActorFlowMaterializer
 import akka.stream.scaladsl._
 import akka.util.ByteString
 import scala.concurrent.Await
@@ -34,7 +34,7 @@ class HttpFormData extends WordSpec with Matchers with Directives {
   val dataUri = Uri(s"http://$host:$port/data")
   
   implicit val system = ActorSystem()
-  implicit val mat = FlowMaterializer()
+  implicit val mat = ActorFlowMaterializer()
   import system.dispatcher
   
   val body = FormData.BodyPart.Strict(
@@ -58,7 +58,7 @@ class HttpFormData extends WordSpec with Matchers with Directives {
   
   def httpResponseFor(uri: Uri) = {
     val connection = Http(system).outgoingConnection(host, port)
-    val responseFuture = Source.singleton(HttpRequest(uri = uri)).via(connection.flow).runWith(Sink.head)
+    val responseFuture = Source.single(HttpRequest(uri = uri)).via(connection.flow).runWith(Sink.head)
     Await.result(responseFuture, Duration.Inf)
   }
   
