@@ -14,7 +14,7 @@ import akka.http.model._
 import com.typesafe.config.{ ConfigFactory, Config }
 import akka.stream.scaladsl.OperationAttributes._
 
-object ProxyService extends App with Proxy {
+/*object ProxyService extends App with Proxy {
 
   val configFile = """
     |akka {
@@ -114,4 +114,4 @@ class BranchRoute[T] extends FlexiRoute[Branch[T]]( name("branchRoute") and inpu
         SameState
     }
   }
-}
+}*/

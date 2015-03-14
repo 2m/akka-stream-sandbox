@@ -15,7 +15,7 @@ import org.scalatest._
 
 class HttpFormData extends WordSpec with Matchers with Directives {
   
-  "http client" should {
+  /*"http client" should {
     "get response" when {
       "asked for string data" in {
         httpResponseFor(dataUri) shouldBe a[HttpResponse]
@@ -60,6 +60,6 @@ class HttpFormData extends WordSpec with Matchers with Directives {
     val connection = Http(system).outgoingConnection(host, port)
     val responseFuture = Source.single(HttpRequest(uri = uri)).via(connection.flow).runWith(Sink.head)
     Await.result(responseFuture, Duration.Inf)
-  }
+  }*/
   
 }

@@ -1,10 +1,14 @@
-scalaVersion := "2.11.5"
+scalaVersion := "2.11.6"
+
+val stream = "1.0-M3"
 
 libraryDependencies := Seq(
-  "com.typesafe.akka" %% "akka-stream-experimental" % "1.0-M3",
-  "com.typesafe.akka" %% "akka-http-experimental" % "1.0-M3",
-  "com.typesafe.akka" %% "akka-stream-testkit-experimental" % "1.0-M3",
-  "org.scalatest" %% "scalatest" % "2.2.1" % "test"
+  "com.typesafe.akka" %% "akka-stream-experimental" % stream,
+  "com.typesafe.akka" %% "akka-http-experimental" % stream,
+  "com.typesafe.akka" %% "akka-stream-testkit-experimental" % stream,
+  "com.typesafe.akka" %% "akka-remote" % "2.3.9",
+  "org.scalatest" %% "scalatest" % "2.2.1" % "test",
+  "org.scala-lang.modules" %% "scala-pickling" % "0.10.0"
 )
 
 updateOptions := updateOptions.value.withConsolidatedResolution(true)

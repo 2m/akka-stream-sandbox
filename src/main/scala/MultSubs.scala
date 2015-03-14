@@ -4,7 +4,7 @@ import akka.stream._
 
 object MultSubs extends App {
 
-  implicit val sys = ActorSystem("kuku")
+  /*implicit val sys = ActorSystem("kuku")
   implicit val mat = ActorFlowMaterializer()
 
   val in1 = Source(List("a"))
@@ -30,6 +30,6 @@ object MultSubs extends App {
   }.run()
 
   Source(graph.get(p1)).map(_ + "qqq").runWith(out1)
-  Source(graph.get(p2)).map(_ + "qqq").runWith(out2)
+  Source(graph.get(p2)).map(_ + "qqq").runWith(out2)*/
 
 }
