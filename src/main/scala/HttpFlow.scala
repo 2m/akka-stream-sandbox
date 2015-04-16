@@ -11,13 +11,13 @@ import akka.util.ByteString
 
 object HttpFlow extends App with Directives {
   
-  /*implicit val sys = ActorSystem()
+  implicit val sys = ActorSystem()
   implicit val mat = ActorFlowMaterializer()
   import sys.dispatcher
   
-  val flow = Flow.empty[(Int, String)].map { case (param, cookie) => s"Param: $param and cookie $cookie" }
+  val flow = Flow[(Int, String)].map { case (param, cookie) => s"Param: $param and cookie $cookie" }
   
-  implicit def stringStreamMarshaller(implicit ec: ExecutionContext): ToResponseMarshaller[Source[String]] =
+  implicit def stringStreamMarshaller(implicit ec: ExecutionContext): ToResponseMarshaller[Source[String, Unit]] =
     Marshaller.withFixedCharset(MediaTypes.`text/plain`, HttpCharsets.`UTF-8`) { s =>
       HttpResponse(entity = HttpEntity.CloseDelimited(MediaTypes.`text/plain`, s.map(ByteString(_))))
     }
@@ -32,6 +32,6 @@ object HttpFlow extends App with Directives {
     }
   }
 
-  Http().bind("127.0.0.1", 9000).startHandlingWith(routes)*/
+  Http().bindAndHandle(routes, "127.0.0.1", 9000)
   
 }

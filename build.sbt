@@ -1,13 +1,13 @@
 scalaVersion := "2.11.6"
 
-val stream = "1.0-M3"
+val stream = "1.0-M5"
 
 libraryDependencies := Seq(
   "com.typesafe.akka" %% "akka-stream-experimental" % stream,
   "com.typesafe.akka" %% "akka-http-experimental" % stream,
   "com.typesafe.akka" %% "akka-stream-testkit-experimental" % stream,
   "com.typesafe.akka" %% "akka-remote" % "2.3.9",
-  "org.scalatest" %% "scalatest" % "2.2.1" % "test",
+  "org.scalatest" %% "scalatest" % "2.2.4" % "test",
   "org.scala-lang.modules" %% "scala-pickling" % "0.10.0"
 )
 
