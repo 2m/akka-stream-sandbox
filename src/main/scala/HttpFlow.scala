@@ -36,6 +36,17 @@ object HttpFlow extends App with Directives {
         complete {
           Source.single(123, "crunchy").via(flow)
         }
+      } ~
+      post {
+        entity(as[Multipart.FormData]) { entity =>
+          val files = entity.parts.mapAsync { bodyPart =>
+            ///bodyPart.entity.dataBytes.runWith(Sink.file(...)) when https://github.com/akka/akka/pull/17211 is merged...
+            bodyPart.entity.dataBytes.runFold(ByteString.empty)(_ ++ _).map { contents =>
+              s"Received file: ${bodyPart.filename} with contents:\n$contents"
+            }
+          }
+          complete(files)
+        }
       }
     }
   }
