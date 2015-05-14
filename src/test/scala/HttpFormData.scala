@@ -1,10 +1,10 @@
 import akka.actor.ActorSystem
-import akka.http.Http
-import akka.http.model._
-import akka.http.server.Directives
-import akka.http.marshalling.Marshal
-import akka.http.model.Multipart.FormData
-import akka.http.model.HttpEntity.Strict
+import akka.http.scaladsl.Http
+import akka.http.scaladsl.model._
+import akka.http.scaladsl.server.Directives
+import akka.http.scaladsl.marshalling.Marshal
+import akka.http.scaladsl.model.Multipart.FormData
+import akka.http.scaladsl.model.HttpEntity.Strict
 import akka.stream.ActorFlowMaterializer
 import akka.stream.scaladsl._
 import akka.util.ByteString

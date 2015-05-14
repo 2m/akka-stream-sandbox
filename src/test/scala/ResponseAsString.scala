@@ -2,11 +2,11 @@ import org.scalatest.WordSpec
 import akka.actor._
 import akka.stream._
 import akka.stream.scaladsl._
-import akka.http._
-import akka.http.model._
+import akka.http.scaladsl._
+import akka.http.scaladsl.model._
+import akka.http.scaladsl.unmarshalling.Unmarshal
 import scala.concurrent._
 import scala.concurrent.duration._
-import akka.http.unmarshalling.Unmarshal
 
 class ResponseAsString extends WordSpec {
 
@@ -20,7 +20,7 @@ class ResponseAsString extends WordSpec {
       val httpClient = Http(system).outgoingConnection(host, 9999)
 
       def get(url: String): Future[String] =
-        Source.single(HttpRequest(uri = Uri(url))).via(httpClient).mapAsync(Unmarshal(_).to[String]).runWith(Sink.head)
+        Source.single(HttpRequest(uri = Uri(url))).via(httpClient).mapAsync(parallelism=4)(Unmarshal(_).to[String]).runWith(Sink.head)
 
       println(Await.result(get("/"), 2 seconds))
     }
