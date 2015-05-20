@@ -1,6 +1,5 @@
 import akka.actor._
 import akka.http.scaladsl.marshallers.xml.ScalaXmlSupport._
-import akka.http.scaladsl.marshalling.ToResponseMarshaller
 import akka.http.scaladsl.model.StatusCodes._
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.testkit.RouteTest
@@ -26,7 +25,7 @@ class ServerResponseFromActor extends WordSpec with RouteTest with Scalatest wit
     val handler = system.actorOf(Props[HtmlActor])
     val route = path("index") {
       get {
-        completeWith[NodeSeq](implicitly[ToResponseMarshaller[NodeSeq]]) { completer =>
+        completeWith(instanceOf[NodeSeq]) { completer =>
           handler ! Request(completer)
         }
       }
