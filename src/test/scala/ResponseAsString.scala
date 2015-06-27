@@ -13,7 +13,7 @@ class ResponseAsString extends WordSpec {
   "response" should {
     "be parsed as a string" in {
       implicit val system = ActorSystem("client-system")
-      implicit val materializer = ActorFlowMaterializer()
+      implicit val materializer = ActorMaterializer()
       import system.dispatcher
 
       val host = "127.0.0.1"

@@ -1,6 +1,6 @@
-scalaVersion := "2.11.6"
+scalaVersion := "2.11.7"
 
-val stream = "1.0-RC3"
+val stream = "1.0-RC4"
 
 libraryDependencies := Seq(
   "com.typesafe.akka" %% "akka-stream-experimental" % stream,

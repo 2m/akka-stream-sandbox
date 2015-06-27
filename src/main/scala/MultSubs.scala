@@ -5,7 +5,7 @@ import akka.stream._
 object MultSubs extends App {
 
   implicit val sys = ActorSystem("kuku")
-  implicit val mat = ActorFlowMaterializer()
+  implicit val mat = ActorMaterializer()
 
   val in1 = Source(List("a"))
   val in2 = Source(List("b"))

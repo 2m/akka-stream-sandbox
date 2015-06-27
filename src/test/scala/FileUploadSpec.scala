@@ -6,7 +6,7 @@ import akka.http.scaladsl.unmarshalling._
 import akka.http.scaladsl.marshalling._
 import akka.http.scaladsl.marshalling.PredefinedToEntityMarshallers._
 import akka.stream.scaladsl.Source
-import akka.stream.ActorFlowMaterializer
+import akka.stream.ActorMaterializer
 import akka.util.ByteString
 import scala.concurrent.ExecutionContext
 import org.scalatest._
@@ -23,7 +23,7 @@ class FileUploadSpec extends WordSpec with Matchers with Directives with ScalaFu
     }
 
   implicit val sys = ActorSystem()
-  implicit val mat = ActorFlowMaterializer()
+  implicit val mat = ActorMaterializer()
   import sys.dispatcher
 
   val routes = {
