@@ -5,15 +5,17 @@ import akka.http.scaladsl.marshalling.{ Marshaller, ToResponseMarshaller }
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.server.Directives
 import akka.http.scaladsl.unmarshalling.Unmarshaller
-import akka.stream.ActorFlowMaterializer
+import akka.stream.ActorMaterializer
 import akka.stream.scaladsl._
 import akka.util.ByteString
-
+import spray.json._
+import DefaultJsonProtocol._
+import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
 
 object HttpFlow extends App with Directives {
 
   implicit val sys = ActorSystem()
-  implicit val mat = ActorFlowMaterializer()
+  implicit val mat = ActorMaterializer()
   import sys.dispatcher
 
   val flow = Flow[(Int, String)].map { case (param, cookie) => s"Param: $param and cookie $cookie" }
@@ -38,15 +40,7 @@ object HttpFlow extends App with Directives {
         }
       } ~
       post {
-        entity(as[Multipart.FormData]) { entity =>
-          val files = entity.parts.mapAsync(parallelism = 4) { bodyPart =>
-            ///bodyPart.entity.dataBytes.runWith(Sink.file(...)) when https://github.com/akka/akka/pull/17211 is merged...
-            bodyPart.entity.dataBytes.runFold(ByteString.empty)(_ ++ _).map { contents =>
-              s"Received file: ${bodyPart.filename} with contents:\n$contents"
-            }
-          }
-          complete(files)
-        }
+        complete("ok")
       }
     }
   }

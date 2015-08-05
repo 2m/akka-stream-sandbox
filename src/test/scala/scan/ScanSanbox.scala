@@ -3,13 +3,13 @@ package scan
 import org.scalatest.WordSpec
 import akka.stream.scaladsl.Source
 import akka.actor.ActorSystem
-import akka.stream.ActorFlowMaterializer
+import akka.stream.ActorMaterializer
 import akka.stream.scaladsl.Sink
 
 class ScanSanbox extends WordSpec {
-  
+
   implicit val sys = ActorSystem()
-  implicit val mat = ActorFlowMaterializer()
+  implicit val mat = ActorMaterializer()
 
   "scan" should {
     "scan" in {
@@ -18,5 +18,5 @@ class ScanSanbox extends WordSpec {
       }.runWith(Sink.foreach(println))
     }
   }
-  
+
 }
