@@ -3,8 +3,8 @@ import akka.stream._
 import akka.stream.FanInShape._
 import akka.stream.scaladsl._
 import akka.stream.stage._
-import org.scalatest._
-import org.scalatest.concurrent.ScalaFutures
+import akka.stream.testkit.scaladsl.TestSink
+import org.scalatest.WordSpec
 
 object MergeSort {
 
@@ -69,7 +69,7 @@ object MergeSort {
   }
 }
 
-class MergeSort extends WordSpec with Matchers with ScalaFutures {
+class MergeSort extends WordSpec {
   import MergeSort._
 
   implicit val sys = ActorSystem("MergeSort")
@@ -78,15 +78,17 @@ class MergeSort extends WordSpec with Matchers with ScalaFutures {
   "merge sort" should {
 
     "sort in order" in {
-      val future = FlowGraph.closed(Sink.head[Seq[Int]]) { implicit b => sink =>
+      val probe = FlowGraph.closed(TestSink.probe[Int]) { implicit b => sink =>
         import FlowGraph.Implicits._
         val ms = b.add(mergeSortGraph)
         Source(List(1, 2, 4, 10)) ~> ms.in(0)
         Source(List(3, 5, 8, 9)) ~> ms.in(1)
-        ms.out.grouped(8) ~> sink
+        ms.out ~> sink
       }.run()
 
-      whenReady(future) { _ shouldBe Seq(1, 2, 3, 4, 5, 8, 9, 10) }
+      probe.request(8)
+      probe.expectNext(1, 2, 3, 4, 5, 8, 9, 10)
+      probe.expectComplete()
     }
   }
 
