@@ -85,14 +85,14 @@ object DynamicMergeSort {
     }
 
     override def onUpstreamFinish(ctx: Context[A]): TerminationDirective =
-      if (leftStore.isEmpty && rightStore.isEmpty)
+      if (leftStore.isEmpty && rightStore.isEmpty && comparator.isEmpty)
         ctx.finish()
       else
         ctx.absorbTermination()
 
     private def nextToPush(takeFromOtherSide: Boolean = false) = {
       val storeToSearch =
-        if (currentSide == Left())
+        if (currentSide == Right())
           if (rightStore.isEmpty && takeFromOtherSide)
             leftStore
           else
@@ -152,6 +152,40 @@ class DynamicMergeSort extends WordSpec {
       probe.expectComplete()
     }
 
+    def mergeSortN(expected: List[Int], ss: List[Int]*) = {
+      val probe = FlowGraph.closed(TestSink.probe[Int]) { implicit b => sink =>
+        import FlowGraph.Implicits._
+
+        def joinGraph(s: IndexedSeq[Any], n: IndexedSeq[Any]): Unit = {
+          if (s.size >= 2) {
+            val merge = b.add(mergeSortGraph)
+            s(0) match {
+              case s: List[Int] => Source(s) ~> merge.in(0)
+              case m: UniformFanInShape[Int, Int] => m ~> merge.in(0)
+            }
+            s(1) match {
+              case s: List[Int] => Source(s) ~> merge.in(1)
+              case m: UniformFanInShape[Int, Int] => m ~> merge.in(1)
+            }
+            joinGraph(s.tail.tail, n :+ merge)
+          } else if (s.size == 1) {
+            // The last output is here, connect it to the graph output
+            if (n.isEmpty) s(0) match {
+              case m: UniformFanInShape[Int, Int] => m ~> sink.inlet
+            }
+            //Not the last output, prepend the source
+            else joinGraph(s(0) +: n, IndexedSeq.empty)
+          } else joinGraph(n, IndexedSeq.empty)
+        }
+
+        joinGraph(ss.toIndexedSeq, IndexedSeq[Any]())
+      }.run()
+
+      probe.request(expected.size)
+      probe.expectNext(expected.head, expected.tail.head, expected.tail.tail :_*)
+      probe.expectComplete()
+    }
+
     "sort in order" when {
 
       "sources are trivial" in {
@@ -174,6 +208,14 @@ class DynamicMergeSort extends WordSpec {
         val s1 = List(1, 100)
         val s2 = (2 to 99).toList
         mergeSort(s1, s2, (s1 ::: s2).sorted)
+      }
+
+      "first source starts with a larger element than second" in {
+        mergeSort(List(3, 4, 5), List(2, 8, 9), List(2, 3, 4, 5, 8, 9))
+      }
+
+      "3 sources" in {
+        mergeSortN(List(2, 3, 4, 5, 8, 9), List(9), List(2, 8), List(3, 4, 5))
       }
     }
 
