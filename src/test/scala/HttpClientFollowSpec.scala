@@ -1,5 +1,6 @@
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
+import akka.stream.io.Implicits._
 import akka.stream.scaladsl._
 import akka.http.scaladsl.server.Directives
 import akka.http.scaladsl.model._
@@ -55,7 +56,7 @@ class HttpClientFollowSpec extends fixture.WordSpec with Directives with Matcher
     "follow redirect" in { f =>
       import f._
       val resp = Await.result(clientFollow(f.localAddress.getHostString, f.localAddress.getPort, "resource"), 1.second)
-      resp shouldBe Data.toString
+      resp shouldBe "Bytes written: " + Data.size
     }
 
     "have finite follow attempts" in { f =>
@@ -73,7 +74,8 @@ class HttpClientFollowSpec extends fixture.WordSpec with Directives with Matcher
       case _ =>
         Http().singleRequest(HttpRequest(uri = uri.withAuthority(host, port).withScheme("http"))).flatMap { response ⇒
           response.status match {
-            case StatusCodes.OK => Unmarshal(response.entity).to[String]
+            case StatusCodes.OK =>
+              response.entity.dataBytes.runWith(Sink.synchronousFile(new java.io.File("filename.txt"))).map(b => "Bytes written: " + b)
             case StatusCodes.PermanentRedirect =>
               response.entity.dataBytes.runWith(Sink.ignore)
               response.header[Location]
