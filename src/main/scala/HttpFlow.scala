@@ -11,6 +11,7 @@ import akka.util.ByteString
 import spray.json._
 import DefaultJsonProtocol._
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
+import akka.http.scaladsl.marshalling._
 
 object HttpFlow extends App with Directives {
 
@@ -40,7 +41,11 @@ object HttpFlow extends App with Directives {
         }
       } ~
       post {
-        complete("ok")
+        val map: Map[String, Any] = Map("hi" -> Map("nice" -> 1))
+        implicit val mapMarshaller2: ToEntityMarshaller[Map[String, Any]] = Marshaller.opaque { map =>
+          HttpEntity(ContentType(MediaTypes.`application/json`), map.toString)
+        }
+        complete(StatusCodes.OK -> map)
       }
     }
   }
