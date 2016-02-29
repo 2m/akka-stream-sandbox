@@ -3,20 +3,9 @@ import akka.stream._
 import akka.stream.scaladsl._
 import akka.stream.stage._
 import scala.concurrent.duration._
-import scala.io.StdIn
-import scala.util._
+import Util._
 
 object FlowLatch extends App {
-
-  def repl(main: String => Option[String]) = {
-    @annotation.tailrec
-    def action(): Unit = Try(main(StdIn.readLine)) match {
-      case Success(Some(output)) => println(output); action()
-      case Success(None) => // stop repl
-      case Failure(_) => println("Unrecognized input. Type 'q' to quit."); action()
-    }
-    action()
-  }
 
   trait Control
   case object Pause extends Control
