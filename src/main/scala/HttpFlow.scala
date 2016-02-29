@@ -15,7 +15,7 @@ import akka.http.scaladsl.marshalling._
 
 object HttpFlow extends App with Directives {
 
-  implicit val sys = ActorSystem()
+  /*implicit val sys = ActorSystem()
   implicit val mat = ActorMaterializer()
   import sys.dispatcher
 
@@ -50,6 +50,6 @@ object HttpFlow extends App with Directives {
     }
   }
 
-  Http().bindAndHandle(routes, "127.0.0.1", 9000)
+  Http().bindAndHandle(routes, "127.0.0.1", 9000)*/
 
 }

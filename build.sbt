@@ -1,6 +1,6 @@
 scalaVersion := "2.11.7"
 
-val stream = "2.0-M2"
+val stream = "2.0.1"
 
 libraryDependencies := Seq(
   "com.typesafe.akka"      %% "akka-stream-experimental"          % stream,

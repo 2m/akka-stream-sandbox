@@ -63,9 +63,9 @@ object FlowLatch extends App {
       }
   }
 
-  val controlledFlow = FlowGraph.create(Source.actorRef[Control](1, OverflowStrategy.dropHead)) { implicit builder =>
+  val controlledFlow = GraphDSL.create(Source.actorRef[Control](1, OverflowStrategy.dropHead)) { implicit builder =>
     controlSource =>
-      import FlowGraph.Implicits._
+      import GraphDSL.Implicits._
       val latch = builder.add(new Latch)
       controlSource ~> latch.in1
       FlowShape(latch.in0, latch.out)

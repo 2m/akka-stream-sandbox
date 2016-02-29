@@ -13,8 +13,8 @@ object MultSubs extends App {
   val out1 = Sink.foreach(println)
   val out2 = Sink.foreach(println)
 
-  val (p1, p2) = RunnableGraph.fromGraph(FlowGraph.create(Sink.publisher[String](fanout=true), Sink.publisher[String](fanout=true))(Keep.both) { implicit b ⇒ (p1, p2) =>
-    import FlowGraph.Implicits._
+  val (p1, p2) = RunnableGraph.fromGraph(GraphDSL.create(Sink.asPublisher[String](fanout=true), Sink.asPublisher[String](fanout=true))(Keep.both) { implicit b ⇒ (p1, p2) =>
+    import GraphDSL.Implicits._
 
     val bcast = b.add(Broadcast[String](outputPorts = 2))
     val merge = b.add(Merge[String](inputPorts = 2))
@@ -28,7 +28,7 @@ object MultSubs extends App {
     ClosedShape
   }).run()
 
-  Source(p1).map(_ + "qqq").runWith(out1)
-  Source(p2).map(_ + "qqq").runWith(out2)
+  Source.fromPublisher(p1).map(_ + "qqq").runWith(out1)
+  Source.fromPublisher(p2).map(_ + "qqq").runWith(out2)
 
 }
