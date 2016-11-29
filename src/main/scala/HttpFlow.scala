@@ -15,15 +15,15 @@ import akka.http.scaladsl.marshalling._
 
 object HttpFlow extends App with Directives {
 
-  /*implicit val sys = ActorSystem()
+  implicit val sys = ActorSystem()
   implicit val mat = ActorMaterializer()
   import sys.dispatcher
 
   val flow = Flow[(Int, String)].map { case (param, cookie) => s"Param: $param and cookie $cookie" }
 
   implicit def stringStreamMarshaller(implicit ec: ExecutionContext): ToResponseMarshaller[Source[String, Any]] =
-    Marshaller.withFixedCharset(MediaTypes.`text/plain`, HttpCharsets.`UTF-8`) { s =>
-      HttpResponse(entity = HttpEntity.CloseDelimited(MediaTypes.`text/plain`, s.map(ByteString(_))))
+    Marshaller.withOpenCharset(MediaTypes.`text/plain`) { (s, cs) =>
+      HttpResponse(entity = HttpEntity.CloseDelimited(ContentTypes.`text/plain(UTF-8)`, s.map(ByteString(_))))
     }
 
   case class Param(s: String)
@@ -50,6 +50,6 @@ object HttpFlow extends App with Directives {
     }
   }
 
-  Http().bindAndHandle(routes, "127.0.0.1", 9000)*/
+  Http().bindAndHandle(routes, "127.0.0.1", 9000)
 
 }

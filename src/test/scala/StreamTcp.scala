@@ -18,7 +18,7 @@ class StreamTcp extends WordSpec with Matchers {
         connection.handleWith(Flow[ByteString])
       })(Keep.left).run().onComplete(println)
 
-      io.StdIn.readLine()
+      scala.io.StdIn.readLine()
 
     }
   }

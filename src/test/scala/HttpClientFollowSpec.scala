@@ -1,12 +1,10 @@
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
-import akka.stream.io.Implicits._
 import akka.stream.scaladsl._
 import akka.http.scaladsl.server.Directives
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.model.headers.Location
 import akka.http.scaladsl.Http
-import akka.http.scaladsl.unmarshalling.Unmarshal
 import akka.util.ByteString
 import scala.concurrent.duration._
 import scala.concurrent.Await
@@ -75,7 +73,7 @@ class HttpClientFollowSpec extends fixture.WordSpec with Directives with Matcher
         Http().singleRequest(HttpRequest(uri = uri.withAuthority(host, port).withScheme("http"))).flatMap { response ⇒
           response.status match {
             case StatusCodes.OK =>
-              response.entity.dataBytes.runWith(Sink.synchronousFile(new java.io.File("filename.txt"))).map(b => "Bytes written: " + b)
+              response.entity.dataBytes.runWith(FileIO.toPath(new java.io.File("filename.txt").toPath)).map(b => "Bytes written: " + b)
             case StatusCodes.PermanentRedirect =>
               response.entity.dataBytes.runWith(Sink.ignore)
               response.header[Location]

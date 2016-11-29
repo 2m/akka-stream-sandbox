@@ -6,7 +6,7 @@ import akka.http.scaladsl.testkit.TestFrameworkInterface.Scalatest
 import org.scalatest.{ Matchers, WordSpec }
 import akka.http.scaladsl.model._
 
-object FormFieldList {
+/*object FormFieldList {
   object Directives {
     import akka.http.scaladsl.unmarshalling.{ FromStrictFormFieldUnmarshaller ⇒ FSFFU, _ }
     import akka.http.scaladsl.unmarshalling.Unmarshaller._
@@ -75,4 +75,4 @@ class FormFieldList extends WordSpec with RouteTest with Scalatest with Matchers
       unmarshalValue[String](response.entity) shouldBe "Vector(42, 43)"
     }
   }
-}
+}*/

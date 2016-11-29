@@ -1,6 +1,6 @@
-scalaVersion := "2.11.7"
+scalaVersion := "2.11.8"
 
-val stream = "2.4.2"
+val stream = "2.4.11"
 
 libraryDependencies := Seq(
   "com.typesafe.akka"      %% "akka-stream"                       % stream,
@@ -12,8 +12,5 @@ libraryDependencies := Seq(
   "org.scala-lang.modules" %% "scala-xml"                         % "1.0.4",
   "com.typesafe.akka"      %% "akka-stream-testkit"               % stream,
   "com.typesafe.akka"      %% "akka-http-testkit"                 % stream  % "test",
-  "org.scalatest"          %% "scalatest"                         % "2.2.4" % "test"
+  "org.scalatest"          %% "scalatest"                         % "3.0.1" % "test"
 )
-
-mainClass in Compile := Some("FlowLatch")
-enablePlugins(JavaAppPackaging)

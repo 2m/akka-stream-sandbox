@@ -17,9 +17,9 @@ import org.scalatest.time._
 class FileUploadSpec extends WordSpec with Matchers with Directives with ScalaFutures {
 
   implicit final def toResponseMarshaller[A](implicit ec: ExecutionContext): ToResponseMarshaller[Source[String, A]] =
-    Marshaller.withFixedCharset(MediaTypes.`text/plain`, HttpCharsets.`UTF-8`) { messages =>
+    Marshaller.withOpenCharset(MediaTypes.`text/plain`) { (messages, charset) =>
       val data = messages.map(ByteString(_))
-      HttpResponse(entity = HttpEntity.CloseDelimited(MediaTypes.`text/plain`, data))
+      HttpResponse(entity = HttpEntity(ContentTypes.`text/plain(UTF-8)`, data))
     }
 
   implicit val sys = ActorSystem()

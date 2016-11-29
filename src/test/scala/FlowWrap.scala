@@ -14,7 +14,7 @@ class FlowWrap extends WordSpec with Matchers with ScalaFutures {
 
   "flow wrap" should {
     "wrap" in {
-      val wrapped: Flow[Int, String, (Future[Int], Cancellable)] = Flow.wrap(Sink.head[Int], Source(0.seconds, 100.millis, "tick"))(Keep.both)
+      val wrapped: Flow[Int, String, (Future[Int], Cancellable)] = Flow.fromSinkAndSourceMat(Sink.head[Int], Source.tick(0.seconds, 100.millis, "tick"))(Keep.both)
 
       val ((pub, (future, scheduler)), sub) = TestSource.probe[Int].viaMat(wrapped)(Keep.both).toMat(TestSink.probe[String])(Keep.both).run()
 
