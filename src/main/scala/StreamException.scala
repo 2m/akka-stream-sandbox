@@ -1,5 +1,7 @@
 import akka.actor._
 import akka.pattern.ask
+import akka.contrib.pattern.ReceivePipeline
+import akka.contrib.pattern.ReceivePipeline._
 import akka.stream._
 import akka.stream.scaladsl._
 import akka.util._
