@@ -47,6 +47,9 @@ object HttpFlow extends App with Directives {
         }
         complete(StatusCodes.OK -> map)
       }
+    } ~
+    path("hi") {
+      complete("Ohi")
     }
   }
 
