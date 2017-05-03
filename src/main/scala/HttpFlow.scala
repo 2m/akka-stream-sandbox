@@ -1,11 +1,11 @@
 import scala.concurrent.ExecutionContext
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
-import akka.http.scaladsl.marshalling.{ Marshaller, ToResponseMarshaller }
+import akka.http.scaladsl.marshalling.{Marshaller, ToResponseMarshaller}
 import akka.http.scaladsl.model._
-import akka.http.scaladsl.server.Directives
+import akka.http.scaladsl.server.{Directives, RouteResult}
 import akka.http.scaladsl.unmarshalling.Unmarshaller
-import akka.stream.ActorMaterializer
+import akka.stream.{ActorAttributes, ActorMaterializer}
 import akka.stream.scaladsl._
 import akka.util.ByteString
 import spray.json._
@@ -23,6 +23,7 @@ object HttpFlow extends App with Directives {
 
   implicit def stringStreamMarshaller(implicit ec: ExecutionContext): ToResponseMarshaller[Source[String, Any]] =
     Marshaller.withOpenCharset(MediaTypes.`text/plain`) { (s, cs) =>
+      println("Marshaller thread: " + Thread.currentThread.getName)
       HttpResponse(entity = HttpEntity.CloseDelimited(ContentTypes.`text/plain(UTF-8)`, s.map(ByteString(_))))
     }
 
@@ -37,6 +38,7 @@ object HttpFlow extends App with Directives {
           complete(param.s)
         } ~
         complete {
+          println("Route thread: " + Thread.currentThread.getName)
           Source.single(123, "crunchy").via(flow)
         }
       } ~
@@ -53,6 +55,13 @@ object HttpFlow extends App with Directives {
     }
   }
 
+  val routeFlow = RouteResult
+    .route2HandlerFlow(routes)
+    .addAttributes(ActorAttributes.dispatcher("my-dispatcher"))
   Http().bindAndHandle(routes, "127.0.0.1", 9000)
+
+  /*Http().bind("127.0.0.1", 9000).runForeach { conn =>
+    conn.flow.join(routeFlow).run()
+  }*/
 
 }
