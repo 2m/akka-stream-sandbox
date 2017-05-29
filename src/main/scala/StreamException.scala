@@ -1,4 +1,6 @@
 import akka.actor._
+import akka.contrib.pattern.ReceivePipeline
+import akka.contrib.pattern.ReceivePipeline._
 import akka.pattern.ask
 import akka.contrib.pattern.ReceivePipeline
 import akka.contrib.pattern.ReceivePipeline._

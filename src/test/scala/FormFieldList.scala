@@ -3,10 +3,11 @@ import akka.http.scaladsl.model.StatusCodes._
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.testkit.RouteTest
 import akka.http.scaladsl.testkit.TestFrameworkInterface.Scalatest
-import org.scalatest.{ Matchers, WordSpec }
+import org.scalatest.{Matchers, WordSpec}
 import akka.http.scaladsl.model._
+import akka.stream.Materializer
 
-/*object FormFieldList {
+object FormFieldList {
   object Directives {
     import akka.http.scaladsl.unmarshalling.{ FromStrictFormFieldUnmarshaller ⇒ FSFFU, _ }
     import akka.http.scaladsl.unmarshalling.Unmarshaller._
@@ -40,6 +41,7 @@ import akka.http.scaladsl.model._
 
     private def fieldOfForm[T](fieldName: String, fu: Unmarshaller[StrictForm.Field, T])(implicit sfu: SFU): RequestContext ⇒ Future[Seq[T]] = { ctx ⇒
       import ctx.executionContext
+      implicit val mat: Materializer = ???
       sfu(ctx.request.entity).fast.flatMap { form ⇒
         val parts = form.fields.collect {
           case (name, part) if name == fieldName => fu(part)
@@ -75,4 +77,4 @@ class FormFieldList extends WordSpec with RouteTest with Scalatest with Matchers
       unmarshalValue[String](response.entity) shouldBe "Vector(42, 43)"
     }
   }
-}*/
+}

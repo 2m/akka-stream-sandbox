@@ -1,7 +1,7 @@
 scalaVersion := "2.12.1"
 
 val stream = "2.4.16"
-val http = "10.0.3"
+val http = "10.0.5"
 
 libraryDependencies := Seq(
   "com.typesafe.akka"      %% "akka-stream"          % stream,
@@ -12,6 +12,9 @@ libraryDependencies := Seq(
   "com.typesafe.akka"      %% "akka-contrib"         % stream,
   "org.scala-lang.modules" %% "scala-xml"            % "1.0.4",
   "com.typesafe.akka"      %% "akka-stream-testkit"  % stream,
-  "com.typesafe.akka"      %% "akka-http-testkit"    % http  % Test,
-  "org.scalatest"          %% "scalatest"            % "3.0.1" % Test
+  "com.chuusai"            %% "shapeless"            % "2.3.2",
+  "com.typesafe.akka"      %% "akka-http-testkit"    % http    % "test",
+  "org.scalatest"          %% "scalatest"            % "3.0.1" % "test"
 )
+
+resolvers += Resolver.bintrayRepo("fcomb", "maven")
