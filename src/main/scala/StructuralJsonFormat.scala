@@ -41,6 +41,6 @@ object StructuralJsonFormat extends App {
   val test2: Resource[Test2] = Test2(JsFalse)
   printRes(test2)
 
-  def printRes[T](r: Resource[T]) = println(r.toJson)
+  def printRes[T](r: Resource[T]) = ???//println(r.toJson)
 
 }

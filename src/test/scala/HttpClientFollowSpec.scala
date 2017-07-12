@@ -44,8 +44,7 @@ class HttpClientFollowSpec extends fixture.WordSpec with Directives with Matcher
     finally {
       Await.ready(Http().shutdownAllConnectionPools(), 1.second)
       Await.ready(binding.unbind(), 1.second)
-      sys.shutdown()
-      sys.awaitTermination()
+      Await.ready(sys.terminate(), 2.seconds)
     }
   }
 

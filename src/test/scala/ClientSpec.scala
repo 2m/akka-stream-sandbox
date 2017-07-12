@@ -53,8 +53,7 @@ class ClientSpec extends WordSpec with Matchers with Directives {
 
       Await.ready(Http().shutdownAllConnectionPools(), 1.second)
       Await.ready(binding2.unbind(), 1.second)
-      sys.shutdown()
-      sys.awaitTermination()
+      Await.ready(sys.terminate(), 2.seconds)
     }
 
   }

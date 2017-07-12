@@ -1,7 +1,7 @@
-scalaVersion := "2.12.1"
+scalaVersion := "2.12.2"
 
-val stream = "2.4.16"
-val http = "10.0.5"
+val stream = "2.4.18"
+val http = "10.0.7"
 
 libraryDependencies := Seq(
   "com.typesafe.akka"      %% "akka-stream"          % stream,

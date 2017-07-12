@@ -2,8 +2,11 @@ import akka.actor._
 import akka.stream._
 import akka.stream.scaladsl._
 import akka.stream.stage._
+
 import scala.concurrent.duration._
 import Util._
+
+import scala.concurrent.Await
 
 object FlowLatch extends App {
 
@@ -71,6 +74,5 @@ object FlowLatch extends App {
     case "q" => None
   }
 
-  sys.shutdown()
-  sys.awaitTermination()
+  Await.ready(sys.terminate(), 2.seconds)
 }

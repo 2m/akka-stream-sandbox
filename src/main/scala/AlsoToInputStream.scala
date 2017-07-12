@@ -33,7 +33,5 @@ object AlsoToInputStream extends App {
   println(Await.result(bytesRead, 10.seconds))
   println(Await.result(bytesRead2, 10.seconds))
 
-  sys.shutdown()
-  sys.awaitTermination()
-
+  Await.ready(sys.terminate(), 2.seconds)
 }
