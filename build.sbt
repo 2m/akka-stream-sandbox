@@ -13,8 +13,8 @@ libraryDependencies := Seq(
   "org.scala-lang.modules" %% "scala-xml"            % "1.0.6",
   "com.typesafe.akka"      %% "akka-stream-testkit"  % stream,
   "com.chuusai"            %% "shapeless"            % "2.3.2",
-  "com.typesafe.akka"      %% "akka-http-testkit"    % http    % "test",
-  "org.scalatest"          %% "scalatest"            % "3.0.1" % "test"
+  "com.typesafe.akka"      %% "akka-http-testkit"    % http    % Test,
+  "org.scalatest"          %% "scalatest"            % "3.0.1" % Test
 )
 
 resolvers += Resolver.bintrayRepo("fcomb", "maven")
