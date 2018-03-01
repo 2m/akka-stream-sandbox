@@ -1,4 +1,4 @@
-import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
+/*import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import akka.http.scaladsl.model.StatusCodes._
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.testkit.RouteTest
@@ -50,7 +50,7 @@ object FormFieldList {
       }
     }
 
-    private def extractField[A, B](f: A ⇒ Directive1[B]) = fieldDef(f)
+    private def extractField[A, B](f: A ⇒ Directive1[B]) = ??? //fieldDef(f)
   }
 }
 
@@ -77,4 +77,4 @@ class FormFieldList extends WordSpec with RouteTest with Scalatest with Matchers
       unmarshalValue[String](response.entity) shouldBe "Vector(42, 43)"
     }
   }
-}
+}*/

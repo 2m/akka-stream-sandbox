@@ -48,7 +48,7 @@ class ServerRequestAsJson extends WordSpec with RouteTest with Scalatest with Ma
       unmarshalValue[String](response.entity) shouldBe "Sum is: 3"
     }
 
-    Map().exists
+    //Map().exists
 
     Post("/add_json", request.parseJson) ~> route ~> check {
       status shouldBe StatusCodes.BadRequest
