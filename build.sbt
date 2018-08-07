@@ -1,6 +1,6 @@
-scalaVersion := "2.12.4"
+scalaVersion := "2.12.6"
 
-val stream = "2.5.11"
+val stream = "2.5.14"
 val http = "10.0.11"
 
 libraryDependencies := Seq(
